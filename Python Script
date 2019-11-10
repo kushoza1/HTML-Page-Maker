@@ -1,0 +1,41 @@
+import webbrowser
+import os
+import random
+
+def create_page():
+    'generate and show html page based on template'
+
+    template_name = "template.html"
+    file_name = "page.html"
+
+    # load template
+    try:
+        template_fh = open(template_name)
+        template = template_fh.read()
+        template_fh.close()
+    except FileNotFoundError:
+        print("The template file '{}' is missing".format(template_name))
+        return None
+
+    # create page
+    title = ""
+    animal = input("Type a pet name: ")
+    color = input("Type a color of your choice: ")
+    content = input("Enter your character name: ")
+    word_list = ["had a cup of tea in the morning and went to office",
+             "is planning to go on a cruise trip before winter starts",
+             "ended up buying a new iphone from BestBuy and got the insurance on it ",
+             "jumped out of a plane at 10,000 feet and landed down safely",
+             " went back to chicago after the long journey"]
+    sentence = random.choice(word_list)
+    page = template.format(color, content, title, sentence, animal)
+    
+    # write page
+    outfile = open(file_name, "w")
+    outfile.write(page)
+    outfile.close()
+
+    # show page
+    current_folder = os.getcwd()
+    full_file_url = "file:" + current_folder + "/" + file_name
+    webbrowser.open(full_file_url)
